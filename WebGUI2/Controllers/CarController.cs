@@ -16,7 +16,7 @@ namespace WebGUI2.Controllers
         public ActionResult Add(int ferryId)
         {
             ViewBag.FerryId = ferryId;
-            return View();
+            return View(new CarDTO { FerryID = ferryId });
         }
 
         // POST: Car/Add
@@ -34,6 +34,7 @@ namespace WebGUI2.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Error creating car: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Add Car Error: " + ex.Message);
             }
 
             ViewBag.FerryId = ferryId;

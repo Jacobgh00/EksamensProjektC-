@@ -18,34 +18,36 @@ namespace WebGUI2.Controllers
         // GET: Guest/Add
         public ActionResult Add(int ferryId)
         {
-            ViewBag.FerryId = ferryId;
-
+            // Preparing the dropdown for Cars based on the selected Ferry
             var cars = carBLL.GetAllCarsForFerry(ferryId);
-            ViewBag.Cars = new SelectList(cars, "CarID","NumberPlate");
+            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate");
 
-            return View();
+            // Setting default values
+            var guest = new GuestDTO { FerryID = ferryId };
+            return View(guest);
         }
 
         // POST: Guest/Add
         [HttpPost]
-        public ActionResult Add(int ferryId, GuestDTO guest)
+        public ActionResult Add(GuestDTO guest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
                     guestBLL.AddGuestToFerry(guest.FerryID, guest);
-                    return RedirectToAction("Details", "Ferry", new { id = ferryId });
+                    return RedirectToAction("Details", "Ferry", new { id = guest.FerryID });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error creating guest: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error creating guest: " + ex.Message);
-            }
 
-            ViewBag.FerryId = ferryId;
-            var cars = carBLL.GetAllCarsForFerry(ferryId);
-            ViewBag.Cars = new SelectList(cars, "CarID", "NumberPlate");
+            // Preserve the dropdown list in case of an error
+            var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
+            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
+
             return View(guest);
         }
 
@@ -59,8 +61,7 @@ namespace WebGUI2.Controllers
             }
 
             var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
-            ViewBag.Cars = new SelectList(cars, "CarID", "NumberPlate", guest.CarID);
-            
+            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
 
             return View(guest);
         }
@@ -70,20 +71,21 @@ namespace WebGUI2.Controllers
         [HttpPost]
         public ActionResult Edit(GuestDTO guest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
                     guestBLL.UpdateGuest(guest);
                     return RedirectToAction("Details", "Ferry", new { id = guest.FerryID });
                 }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error updating guest: " + ex.Message);
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error updating guest: " + ex.Message);
+                }
             }
 
-            var cars = carBLL.GetAllCarsForFerry(guest.FerryID); // Adjust if needed
+            // Preserve the dropdown list in case of an error
+            var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
             ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
 
             return View(guest);
