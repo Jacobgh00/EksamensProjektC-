@@ -32,6 +32,10 @@ namespace WebGUI2.Controllers
             return View(ferry);
         }
 
+        //POST: Ferry/Add
+
+
+
         // GET: Ferry/Edit/5
         public ActionResult Edit(int id)
         {
@@ -62,20 +66,10 @@ namespace WebGUI2.Controllers
             return View(ferry);
         }
 
-        // GET: Ferry/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var ferry = ferryBLL.GetFerry(id);
-            if (ferry == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ferry);
-        }
-
+       
         // POST: Ferry/Delete/5
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -84,9 +78,10 @@ namespace WebGUI2.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Error deleting ferry: " + ex.Message);
+                
+                TempData["Error"] = "Error deleting ferry: " + ex.Message;
+                return RedirectToAction("Index");
             }
-            return View();
         }
 
         // GET: Ferry/Create
