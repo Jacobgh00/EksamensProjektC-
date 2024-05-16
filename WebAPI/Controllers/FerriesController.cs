@@ -19,12 +19,14 @@ namespace WebAPI.Controllers
 
 
         //GET: api/Ferries
+        [HttpGet]
         public IHttpActionResult Get()
         {
             return Ok(_ferryBLL.GetAllFerries());
         }
 
         //GET: api/Ferries/5
+        [HttpGet]
         public IHttpActionResult Get(int id)
         {
             var ferry = _ferryBLL.GetFerry(id);
@@ -34,6 +36,29 @@ namespace WebAPI.Controllers
             }
             return Ok(ferry);
         }
+
+        //Delete: api/Ferries/5
+        [HttpDelete]
+        public IHttpActionResult DeleteFerry(int id)
+        {
+            try
+            {
+                var ferry = _ferryBLL.GetFerry(id);
+                if (ferry == null)
+                {
+                    return NotFound();
+                }
+
+                _ferryBLL.DeleteFerry(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
-}
+
+}   
+
 

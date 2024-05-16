@@ -10,9 +10,16 @@ namespace DTO.Models
 {
     public class FerryDTO
     {
+        [Required]
         public int FerryID { get; set; }
+
+        [Required]
         public string Name { get; set; }
+        
+        [Range(10, 10000)]
         public int MaxCars { get; set; }
+
+        [Range (40, 10000)]
         public int MaxGuests { get; set; }
         public virtual ICollection<GuestDTO> Guests { get; set; }
         public virtual ICollection<CarDTO> Cars { get; set; }

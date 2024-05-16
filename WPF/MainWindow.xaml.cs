@@ -297,6 +297,7 @@ namespace WPF
                     response.EnsureSuccessStatusCode();
                     var ferriesJson = await response.Content.ReadAsStringAsync();
                     var ferries = JsonConvert.DeserializeObject<List<FerryDTO>>(ferriesJson);
+
                     UpdateDataGrid(ferries, "Ferries");
                     ApiDataGrid2.ItemsSource = ferries;
 

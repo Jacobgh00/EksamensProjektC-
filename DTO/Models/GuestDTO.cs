@@ -9,9 +9,16 @@ namespace DTO.Models
 {
     public class GuestDTO
     {
+        [Required]
         public int GuestID { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Gender { get; set; }
+
+        [Required]
         public DateTime Birthdate { get; set; }
         public int? CarID { get; set; }
         public int FerryID { get; set; }
