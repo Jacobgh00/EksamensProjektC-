@@ -29,6 +29,7 @@ namespace WPF
         {
             InitializeComponent();
             Ferry = ferry;
+            
             this.DataContext = Ferry;
         }
 

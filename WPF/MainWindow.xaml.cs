@@ -423,30 +423,5 @@ namespace WPF
 
         
 
-        //Add ferry via API
-
-        //Edit ferry via API
-
-        //Delete ferry via API
-
-        //Load cars via API
-
-        //Add car via API
-
-        //Edit car via API
-
-        //Delete car via API
-
-        //Load guests via API
-
-        //Add guest via API
-
-        //Edit guest via API
-
-        //Delete guest via API
-
-
-        //Test API connection
-
     }
 }
