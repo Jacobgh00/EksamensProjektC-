@@ -1,0 +1,106 @@
+﻿@model DTO.Models.FerryDTO
+
+@{
+    ViewBag.Title = "Ferry Details";
+}
+
+<h2>@Model.Name Details</h2>
+
+<div>
+    <h4>Ferry Information</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.MaxCars)</dt>
+        <dd>@Html.DisplayFor(model => model.MaxCars)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.MaxGuests)</dt>
+        <dd>@Html.DisplayFor(model => model.MaxGuests)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.GuestPrice)</dt>
+        <dd>@Html.DisplayFor(model => model.GuestPrice)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.CarPrice)</dt>
+        <dd>@Html.DisplayFor(model => model.CarPrice)</dd>
+    </dl>
+</div>
+
+<h3>Cars on Ferry</h3>
+@if (Model.Cars.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>License Plate</th>
+                <th>Name</th>
+                <th>Passengers</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var car in Model.Cars)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => car.LicensePlate)</td>
+
+                <td>
+                    @foreach (var passenger in car.Passengers)
+                    {
+                        @Html.DisplayFor(modelItem => passenger.Name) <br />
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Car", new { id = car.CarId }, new { @class = "btn btn-primary btn-xs" }) |
+                    @Html.ActionLink("Delete", "Delete", "Car", new { id = car.CarId }, new { @class = "btn btn-danger btn-xs" })
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No cars are currently listed on this ferry.</p>
+}
+
+<h3>Guests on Ferry</h3>
+@if (Model.Guests.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Guests[0].Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Guests[0].Gender)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var guest in Model.Guests)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => guest.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => guest.Gender)</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Guest", new { id = guest.GuestId }, new { @class = "btn btn-primary btn-xs" }) |
+                        @Html.ActionLink("Delete", "Delete", "Guest", new { id = guest.GuestId }, new { @class = "btn btn-danger btn-xs" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No guests are currently listed on this ferry.</p>
+}
+
+<p>
+    @Html.ActionLink("Add Car", "AddCar", "Car", new { ferryId = Model.FerryID }, new { @class = "btn btn-success" }) |
+    @Html.ActionLink("Add Guest", "AddGuest", "Guest", new { ferryId = Model.FerryID }, new { @class = "btn btn-success" })
+</p>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-default" })
+</p>

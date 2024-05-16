@@ -1,0 +1,24 @@
+﻿<Window x:Class="WPF.EditGuestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit Guest" Height="300" Width="300"
+        ResizeMode="NoResize">
+
+    <StackPanel Margin="10">
+        <Label>Name:</Label>
+        <TextBox x:Name="NameTextBox" Margin="5" />
+
+        <Label>Gender:</Label>
+        <ComboBox x:Name="GenderComboBox" Margin="5">
+            <ComboBoxItem Content="Male" />
+            <ComboBoxItem Content="Female" />
+            <ComboBoxItem Content="Other" />
+        </ComboBox>
+
+        <Label>Birth Date:</Label>
+        <DatePicker x:Name="BirthDatePicker" Margin="5" />
+
+        <Button Content="Save Changes" HorizontalAlignment="Center" Margin="10" Padding="5" Click="SaveChanges_Click" />
+    </StackPanel>
+</Window>
+

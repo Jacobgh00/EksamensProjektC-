@@ -1,0 +1,26 @@
+﻿<Window x:Class="WPF.AddGuestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+        mc:Ignorable="d"
+        Title="AddGuestWindow" Height="380" Width="344">
+    <StackPanel Margin="10,10,116,10">
+        <Label>Name:</Label>
+        <TextBox x:Name="NameTextBox" Margin="5"></TextBox>
+
+        <Label>Gender:</Label>
+        <ComboBox x:Name="GenderComboBox" Margin="5">
+            <ComboBoxItem Content="Male"></ComboBoxItem>
+            <ComboBoxItem Content="Female"></ComboBoxItem>
+            <ComboBoxItem Content="Other"></ComboBoxItem>
+        </ComboBox>
+
+        <Label>BirthDate:</Label>
+        <DatePicker x:Name="BirthDatePicker" Margin="5"></DatePicker>
+
+        <Button Content="Add Guest" Margin="20" Click="AddGuest_Click" Height="19" Width="114"></Button>
+    </StackPanel>
+
+</Window>

@@ -1,0 +1,117 @@
+﻿@model DTO.Models.FerryDTO
+
+@{
+    ViewBag.Title = "Ferry Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">@ViewBag.Title</h2>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Ferry Details</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+
+                <dt class="col-sm-3">FerryID</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FerryID)</dd>
+
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-3">Max Cars</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.MaxCars)</dd>
+
+                <dt class="col-sm-3">Max Guests</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.MaxGuests)</dd>
+
+                <dt class="col-sm-3">Price per Guest</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.PriceGuests)</dd>
+
+                <dt class="col-sm-3">Price per Car</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.PriceCar)</dd>
+
+                <dt class="col-sm-3">Total Guests</dt>
+                <dd class="col-sm-9">@Model.TotalGuests</dd>
+
+                <dt class="col-sm-3">Total Cars</dt>
+                <dd class="col-sm-9">@Model.TotalCars</dd>
+
+                <dt class="col-sm-3">Total Price</dt>
+                <dd class="col-sm-9">@Model.TotalPrice</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3>Guests</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Birthdate</th>
+                    <th>Car ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var guest in Model.Guests)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => guest.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => guest.Gender)</td>
+                        <td>@Html.DisplayFor(modelItem => guest.Birthdate)</td>
+                        <td>@Html.DisplayFor(modelItem => guest.CarID)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Guest", new { id = guest.GuestID }, new { @class = "btn btn-sm btn-primary" }) |
+                            @Html.ActionLink("Delete", "Delete", "Guest", new { id = guest.GuestID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p>
+            @Html.ActionLink("Add Guest", "Add", "Guest", new { ferryId = Model.FerryID }, new { @class = "btn btn-success" })
+        </p>
+    </div>
+
+    <div class="mt-4">
+        <h3>Cars</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>CarID</th>
+                    <th>Name</th>
+                    <th>Numberplate</th>
+                    <th>Number of Guests</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var car in Model.Cars)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => car.CarID)</td>
+                        <td>@Html.DisplayFor(modelItem => car.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => car.Numberplate)</td>
+                        <td>@car.Guests.Count()</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Car", new { id = car.CarID }, new { @class = "btn btn-sm btn-primary" }) |
+                            @Html.ActionLink("Delete", "Delete", "Car", new { id = car.CarID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p>
+            @Html.ActionLink("Add Car", "Add", "Car", new { ferryId = Model.FerryID }, new { @class = "btn btn-success" })
+        </p>
+    </div>
+
+    <div class="mt-4">
+        @Html.ActionLink("Back to List", "Index", "Ferry", null, new { @class = "btn btn-secondary" })
+    </div>
+</div>

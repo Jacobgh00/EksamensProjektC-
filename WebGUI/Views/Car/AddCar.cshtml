@@ -1,0 +1,36 @@
+﻿@model DTO.Models.CarDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Add Car to Ferry " + Model.FerryId;
+}
+
+<h2>Add Car to Ferry @Model.FerryId</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LicensePlate)
+        @Html.TextBoxFor(model => model.LicensePlate, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LicensePlate)
+    </div>
+
+   
+    <div class="form-group">
+        <label>Passengers</label>
+        @foreach (var guest in (SelectList)ViewBag.Guests)
+        {
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="passengerIds" value="@guest.Value" /> @guest.Text
+                </label>
+            </div>
+        }
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add Car</button>
+    </div>
+}

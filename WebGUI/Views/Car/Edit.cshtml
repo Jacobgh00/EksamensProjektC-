@@ -1,0 +1,39 @@
+﻿@model DTO.Models.CarDTO
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit Car";
+}
+
+<h2>Edit Car</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.CarId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LicensePlate)
+        @Html.TextBoxFor(model => model.LicensePlate, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LicensePlate)
+    </div>
+
+   
+    <div class="form-group">
+        <label>Passengers</label>
+        @foreach (var guest in (SelectList)ViewBag.Guests)
+        {
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="passengerIds" value="@guest.Value" @(Model.Passengers.Any(p => p.GuestId.Equals(guest.Value)) ? "checked" : "") /> @guest.Text <!--Error here-->
+                </label>
+            </div>
+        }
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save changes</button>
+        @Html.ActionLink("Cancel and go back", "Details", "Ferry", new { id = Model.FerryId }, new { @class = "btn btn-default" })
+    </div>
+}

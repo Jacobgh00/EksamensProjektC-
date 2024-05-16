@@ -1,0 +1,13 @@
+﻿<Window x:Class="WPF.AddFerryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Ferry" Height="300" Width="400">
+    <StackPanel Margin="10">
+        <TextBox x:Name="NameTextBox" Text="Ferry Name" Margin="5"/>
+        <TextBox x:Name="MaxCarsTextBox" Text="Maximum Number of Cars" Margin="5"/>
+        <TextBox x:Name="MaxGuestsTextBox" Text="Maximum Number of Guests" Margin="5"/>
+        <TextBox x:Name="PricePerGuestTextBox" Text="Price Per Guest" Margin="5"/>
+        <TextBox x:Name="PricePerCarTextBox" Text="Price Per Car" Margin="5"/>
+        <Button Content="Add Ferry" Click="AddFerry_Click" Width="104"/>
+    </StackPanel>
+</Window>
