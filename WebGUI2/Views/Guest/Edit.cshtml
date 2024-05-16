@@ -12,6 +12,7 @@
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(model => model.GuestID)
+    @Html.HiddenFor(model => model.FerryID)
 
     <div class="form-group">
         @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })

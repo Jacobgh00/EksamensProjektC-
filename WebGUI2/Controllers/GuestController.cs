@@ -18,11 +18,10 @@ namespace WebGUI2.Controllers
         // GET: Guest/Add
         public ActionResult Add(int ferryId)
         {
-            // Preparing the dropdown for Cars based on the selected Ferry
             var cars = carBLL.GetAllCarsForFerry(ferryId);
             ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate");
 
-            // Setting default values
+            
             var guest = new GuestDTO { FerryID = ferryId };
             return View(guest);
         }
@@ -44,7 +43,7 @@ namespace WebGUI2.Controllers
                 }
             }
 
-            // Preserve the dropdown list in case of an error
+            
             var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
             ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
 
@@ -90,6 +89,7 @@ namespace WebGUI2.Controllers
 
             return View(guest);
         }
+        
 
         // GET: Guest/Delete/5
         public ActionResult Delete(int id)
