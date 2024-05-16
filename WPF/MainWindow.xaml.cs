@@ -368,7 +368,7 @@ namespace WPF
             }
         }
 
-
+        //alt den her gør at vi kan opdatere datagriden med de forskellige typer af data.
         private void UpdateDataGrid<T>(List<T> items, string type)
         {
             ApiDataGrid2.Columns.Clear();
