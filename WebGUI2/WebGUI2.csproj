@@ -116,10 +116,8 @@
     <Content Include="Views\Ferry\Edit.cshtml" />
     <Content Include="Views\Guest\Add.cshtml" />
     <Content Include="Views\Guest\Edit.cshtml" />
-    <Content Include="Views\Guest\Delete.cshtml" />
     <Content Include="Views\Car\Add.cshtml" />
     <Content Include="Views\Car\Edit.cshtml" />
-    <Content Include="Views\Car\Delete.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Ferry\Create.cshtml" />
     <None Include="Web.Debug.config">

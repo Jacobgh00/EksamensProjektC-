@@ -104,6 +104,7 @@ namespace WebGUI2.Controllers
 
         // POST: Guest/Delete/5
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             var guest = guestBLL.GetGuest(id);
@@ -119,7 +120,7 @@ namespace WebGUI2.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Error deleting guest: " + ex.Message);
-                return View("Delete", guest);
+                return RedirectToAction("Details", "Ferry", new { id = guest.FerryID });
             }
         }
 

@@ -38,6 +38,8 @@ namespace WPF
         {
             InitializeComponent();
             RefreshAllData();
+
+
         }
 
         //til at opdatere data uden at skulle trykke på en knap
@@ -49,6 +51,7 @@ namespace WPF
 
         }
 
+       
         //til at opdatere data direkte fra databasen
         private void Loadferries()
         {
@@ -171,7 +174,7 @@ namespace WPF
                 var addCarWindow = new AddCarWindow(selectedFerry.FerryID);
                 if (addCarWindow.ShowDialog() == true)
                 {
-                    LoadCars();  // Refresh the cars list for the selected ferry
+                    LoadCars(); 
                 }
             }
             else

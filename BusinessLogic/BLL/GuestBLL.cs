@@ -1,4 +1,5 @@
 ﻿using DTO.Models;
+using FerryManagementData.Models;
 using FerryManagementData.Repository;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,6 @@ namespace BusinessLogic.BLL
         // tilføjer en gæst til en færge
         public void AddGuestToFerry(int ferryId, GuestDTO guest)
         {
-            
 
             var ferry = FerryRepository.GetFerry(ferryId);
             if (ferry == null)
@@ -34,6 +34,7 @@ namespace BusinessLogic.BLL
 
             if (ferry.Guests.Count >= ferry.MaxGuests)
                 throw new InvalidOperationException($"Ferry '{ferry.Name}' cannot accommodate more guests (Max guests: {ferry.MaxGuests}).");
+
 
             guest.FerryID = ferryId;
             GuestRepository.AddGuest(guest);

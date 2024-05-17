@@ -12,6 +12,7 @@ namespace WebGUI2.Controllers
     {
         private CarBLL carBLL = new CarBLL();
         private FerryBLL ferryBLL = new FerryBLL();
+        private GuestBLL guestBLL = new GuestBLL();
         // GET: Car/Add
         public ActionResult Add(int ferryId)
         {
@@ -34,7 +35,6 @@ namespace WebGUI2.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Error creating car: " + ex.Message);
-                System.Diagnostics.Debug.WriteLine("Add Car Error: " + ex.Message);
             }
 
             ViewBag.FerryId = ferryId;
@@ -67,14 +67,9 @@ namespace WebGUI2.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception details to help with debugging
-                System.Diagnostics.Debug.WriteLine(ex);
-
-                // Add a model error with detailed exception message
                 ModelState.AddModelError("", "Error updating car: " + ex.ToString());
             }
 
-            // If we got this far, something failed, redisplay form
             return View(car);
         }
 
@@ -89,24 +84,33 @@ namespace WebGUI2.Controllers
             return View(car);
         }
 
+
         // POST: Car/Delete/5
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var car = carBLL.GetCar(id);
+            CarDTO car = carBLL.GetCar(id);
             if (car == null)
             {
                 return HttpNotFound();
             }
+
             try
             {
+                foreach (var guest in car.Guests.ToList())
+                {
+                    guestBLL.DeleteGuest(guest.GuestID);
+                }
+
                 carBLL.DeleteCar(id);
+
                 return RedirectToAction("Details", "Ferry", new { id = car.FerryID });
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Error deleting car: " + ex.Message);
-                return View("Delete", car);
+                return View(car);
             }
         }
     }
