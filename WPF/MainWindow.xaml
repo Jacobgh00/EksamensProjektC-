@@ -12,7 +12,7 @@
         </Menu>
 
         <!-- Main Content Tab Control -->
-        <TabControl x:Name="MainTabControl" Margin="10">
+        <TabControl x:Name="MainTabControl" Margin="10" SelectionChanged="MainTabControl_SelectionChanged">
             <!-- Ferries Management Tab -->
             <TabItem Header="Ferries">
                 <Grid>
@@ -93,6 +93,7 @@
                     <DataGrid x:Name="DataGridGuests" AutoGenerateColumns="False" Margin="10"
                             ItemsSource="{Binding}"
                             SelectedItem="{Binding SelectedGuest}">
+
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Ferry ID" Binding="{Binding FerryID}" Width="100"></DataGridTextColumn>
                             <DataGridTextColumn Header="Car ID" Binding="{Binding CarID}" Width="100" IsReadOnly="True"/>

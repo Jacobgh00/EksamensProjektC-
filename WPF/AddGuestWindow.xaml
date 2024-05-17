@@ -20,6 +20,12 @@
         <Label>BirthDate:</Label>
         <DatePicker x:Name="BirthDatePicker" Margin="5"></DatePicker>
 
+        <Label>Car:</Label>
+        <ComboBox x:Name="CarComboBox" Margin="5">
+            <ComboBoxItem Content="" IsSelected="True" />
+            
+        </ComboBox>
+
         <Button Content="Add Guest" Margin="20" Click="AddGuest_Click" Height="19" Width="114"></Button>
     </StackPanel>
 

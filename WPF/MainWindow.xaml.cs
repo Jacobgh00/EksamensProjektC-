@@ -77,15 +77,7 @@ namespace WPF
         {
             if (DataGridFerries.SelectedItem is FerryDTO selectedFerry)
             {
-
                 var cars = _carBLL.GetAllCarsForFerry(selectedFerry.FerryID);
-
-                foreach (var car in cars)
-                {
-                    car.NumberOfGuests = _guestBLL.GetAllGuests(selectedFerry.FerryID).Count(g => g.CarID == car.CarID);
-                }
-
-                //selectedFerry.Cars = cars;
                 DataGridCars.ItemsSource = cars;
             }
             else
@@ -96,21 +88,33 @@ namespace WPF
 
         private void LoadGuests()
         {
-            if (DataGridCars.SelectedItem is CarDTO selectedCar)
-            {
-                var guestsForCar = _guestBLL.GetAllGuests(selectedCar.FerryID)
-                    .Where(g => g.CarID == selectedCar.CarID).ToList();
+            // Clear previous items
+            DataGridGuests.ItemsSource = null;
 
-                DataGridGuests.ItemsSource = guestsForCar;
-
-                Console.WriteLine($"Loaded guests for Car ID: {selectedCar.CarID} - Count: {guestsForCar.Count}");
-            }
-            else
+            if (DataGridFerries.SelectedItem is FerryDTO selectedFerry)
             {
-                DataGridGuests.ItemsSource = null;
-                Console.WriteLine("No car selected or no guests for the selected car.");
+                List<GuestDTO> guestsToLoad = new List<GuestDTO>();
+
+                if (DataGridCars.SelectedItem is CarDTO selectedCar)
+                {
+                    // Load guests for the selected car
+                    guestsToLoad = _guestBLL.GetAllGuests(selectedFerry.FerryID)
+                        .Where(g => g.CarID == selectedCar.CarID).ToList();
+                }
+                else
+                {
+                    // Load guests for the ferry without filtering by car
+                    guestsToLoad = _guestBLL.GetAllGuests(selectedFerry.FerryID)
+                        .Where(g => g.FerryID == selectedFerry.FerryID).ToList();
+                }
+
+                DataGridGuests.ItemsSource = guestsToLoad;
+                Console.WriteLine($"Loaded guests for the current selection - Count: {guestsToLoad.Count}");
             }
         }
+
+
+
 
 
 
@@ -125,6 +129,16 @@ namespace WPF
             LoadGuests();
         }
 
+        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl)
+            {
+                if (MainTabControl.SelectedIndex == 2)
+                {
+                    LoadGuests();
+                }
+            }
+        }
 
 
         //------------------------------------CRUD SECTION------------------------------------------------------------//
@@ -252,17 +266,19 @@ namespace WPF
         //Add, edit og delete Guest
         private void AddGuest_Click(object sender, RoutedEventArgs e)
         {
-            if (DataGridCars.SelectedItem is CarDTO selectedCar && DataGridFerries.SelectedItem is FerryDTO selectedFerry)
+            if (DataGridFerries.SelectedItem is FerryDTO selectedFerry)
             {
-                var addGuestWindow = new AddGuestWindow(selectedCar.CarID, selectedFerry.FerryID);
+                CarDTO selectedCar = DataGridCars.SelectedItem as CarDTO;
+
+                var addGuestWindow = new AddGuestWindow(selectedCar?.CarID, selectedFerry.FerryID);
                 if (addGuestWindow.ShowDialog() == true)
                 {
-                    LoadGuests();  // Ensure guests list is refreshed
+                    LoadGuests();
                 }
             }
             else
             {
-                MessageBox.Show("Please select a car to add guests to.", "No Car Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please select a ferry to add guests to.", "No Ferry Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -270,10 +286,17 @@ namespace WPF
         {
             if (DataGridGuests.SelectedItem is GuestDTO selectedGuest)
             {
-                var editGuestWindow = new EditGuestWindow(selectedGuest);
-                if (editGuestWindow.ShowDialog() == true)
+                if (DataGridFerries.SelectedItem is FerryDTO selectedFerry)
                 {
-                    LoadGuests();
+                    var editGuestWindow = new EditGuestWindow(selectedGuest, selectedFerry.FerryID);
+                    if (editGuestWindow.ShowDialog() == true)
+                    {
+                        LoadGuests();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a ferry and a guest to edit.", "Selection Missing", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
