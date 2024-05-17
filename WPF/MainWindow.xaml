@@ -42,6 +42,7 @@
 
                     <!-- Action Buttons for Ferries -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Margin="0,10,0,10">
+                        <Button Content="Refresh" Margin="5" Width="100" Click="Refresh_Click"/>
                         <Button Content="Add Ferry" Margin="5" Width="100" Click="AddFerry_Click"/>
                         <Button Content="Edit Selected Ferry" Margin="5" Width="150" Click="EditFerry_Click"/>
                         <Button Content="Delete Selected Ferry" Margin="5" Width="150" Click="DeleteFerry_Click"/>
@@ -72,6 +73,7 @@
 
                     <!-- Action Buttons for Cars -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Margin="0,10,0,10">
+                        <Button Content="Refresh" Margin="5" Width="100" Click="RefreshCar_Click"/>
                         <Button Content="Add Car" Margin="5" Width="100" Click="AddCar_Click"/>
                         <Button Content="Edit Selected Car" Margin="5" Width="150" Click="EditCar_Click"/>
                         <Button Content="Delete Selected Car" Margin="5" Width="150" Click="DeleteCar_Click"/>
@@ -111,10 +113,14 @@
             </TabItem>
             <TabItem Header="API">
                 <Grid>
-                    <DataGrid x:Name="ApiDataGrid2" AutoGenerateColumns="False" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="79*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="ApiDataGrid2" AutoGenerateColumns="False" Margin="10,10,10,10" Grid.ColumnSpan="2">
                         <!-- Kolonner defineres dynamisk i kode -->
                     </DataGrid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
                         <Button Content="Load Ferries" Height="30" Width="97" Click="LoadFerriesAPI2_Click"/>
                         <Button Content="Load Cars" Height="30" Width="97" Click="LoadCarsForFerryAPI_Click" Margin="10,0,0,0"/>
                         <Button Content="Load Guests" Height="30" Width="97" Click="LoadGuestsAPI_Click" Margin="10,0,0,0"/>

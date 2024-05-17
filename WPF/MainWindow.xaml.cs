@@ -29,7 +29,6 @@ namespace WPF
         private FerryBLL _ferryBLL = new FerryBLL();
         private CarBLL _carBLL = new CarBLL();
         private GuestBLL _guestBLL = new GuestBLL();
-        private List<FerryDTO> ferries;
         
         private static readonly string SERVER_URL = "https://localhost:44393/api/";
         
@@ -40,6 +39,18 @@ namespace WPF
             RefreshAllData();
 
 
+        }
+
+
+        //------------------------------------LOAD SECTION------------------------------------------------------------//
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            Loadferries();
+        }
+
+        private void RefreshCar_Click(object sender, RoutedEventArgs e)
+        {
+            LoadCars();
         }
 
         //til at opdatere data uden at skulle trykke på en knap
@@ -55,7 +66,7 @@ namespace WPF
         //til at opdatere data direkte fra databasen
         private void Loadferries()
         {
-            ferries = _ferryBLL.GetAllFerries();
+            var ferries = _ferryBLL.GetAllFerries();
             DataGridFerries.ItemsSource = ferries;
         }
 
@@ -114,8 +125,9 @@ namespace WPF
 
       
 
-        //Add, edit og delete Ferry
+        //------------------------------------CRUD SECTION------------------------------------------------------------//
 
+        //Add, edit og delete Ferry
         private void AddFerry_Click(object sender, RoutedEventArgs e)
         {
             var addFerryWindow = new AddFerryWindow();
@@ -289,6 +301,8 @@ namespace WPF
 
 
         
+    //------------------------------------------API SECTION------------------------------------------------------------//
+
         //loader færger fra API
         private async void LoadFerriesAPI2_Click(object sender, RoutedEventArgs e)
         {
@@ -371,7 +385,8 @@ namespace WPF
             }
         }
 
-        //alt den her gør at vi kan opdatere datagriden med de forskellige typer af data.
+
+        //alt den her gør at vi kan opdatere datagriden med de forskellige typer af data. Den ser overskuelig ud, men den er rimelig simpel
         private void UpdateDataGrid<T>(List<T> items, string type)
         {
             ApiDataGrid2.Columns.Clear();
@@ -424,7 +439,6 @@ namespace WPF
             ApiDataGrid2.ItemsSource = items;
         }
 
-        
-
+       
     }
 }
