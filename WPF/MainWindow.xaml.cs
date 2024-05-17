@@ -43,7 +43,7 @@ namespace WPF
 
 
         //------------------------------------LOAD SECTION------------------------------------------------------------//
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void RefreshFerry_Click(object sender, RoutedEventArgs e)
         {
             Loadferries();
         }
@@ -53,7 +53,12 @@ namespace WPF
             LoadCars();
         }
 
-        //til at opdatere data uden at skulle trykke på en knap
+        private void RefreshGuest_Click(object sender, RoutedEventArgs e)
+        {
+            LoadGuests();
+        }
+
+        //til at opdatere data direkte uden at skulle trykke på en knap
         private void RefreshAllData()
         {
             Loadferries();
@@ -62,8 +67,6 @@ namespace WPF
 
         }
 
-       
-        //til at opdatere data direkte fra databasen
         private void Loadferries()
         {
             var ferries = _ferryBLL.GetAllFerries();
@@ -111,7 +114,7 @@ namespace WPF
 
 
 
-        //Load cars og guests
+        //Load cars og guests efter selection changed
         private void DataGridFerries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadCars();
@@ -222,9 +225,17 @@ namespace WPF
                 {
                     try
                     {
+                        var guestsToDelete = _guestBLL.GetAllGuests(selectedCar.FerryID).Where(g => g.CarID == selectedCar.CarID).ToList();
+
+                        foreach (var guest in guestsToDelete)
+                        {
+                            _guestBLL.DeleteGuest(guest.GuestID);
+                        }
+
                         _carBLL.DeleteCar(selectedCar.CarID);
                         MessageBox.Show("Car deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                         LoadCars();
+                        LoadGuests();
                     }
                     catch (Exception ex)
                     {
