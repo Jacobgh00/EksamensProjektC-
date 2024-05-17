@@ -39,12 +39,19 @@ namespace WPF
 
         private void LoadCarOptions()
         {
-            
-            var cars = _carBLL.GetAllCarsForFerry(_ferryId);
+            CarComboBox.Items.Clear();
             CarComboBox.Items.Add(new ComboBoxItem { Content = "No Car", IsSelected = true });
+
+            var cars = _carBLL.GetAllCarsForFerry(_ferryId);
             foreach (var car in cars)
             {
-                CarComboBox.Items.Add(new ComboBoxItem { Content = car.Name, Tag = car.CarID });
+                // Hent alle gæster for denne specifikke bil
+                var guestsForCar = _guestBLL.GetAllGuests(_ferryId).Where(g => g.CarID == car.CarID).ToList();
+                int currentGuestCount = guestsForCar.Count;
+
+                // Tjek at antallet af gæster ikke overstiger bilens kapacitet
+                string displayText = $"{car.Name} ({currentGuestCount}/5)";
+                CarComboBox.Items.Add(new ComboBoxItem { Content = displayText, Tag = car.CarID });
             }
         }
 
@@ -54,14 +61,26 @@ namespace WPF
             try
             {
                 var selectedCarItem = CarComboBox.SelectedItem as ComboBoxItem;
-                int? carId = selectedCarItem?.Tag as int?; // This will be null if "No Car" is selected
+                int? carId = selectedCarItem?.Tag as int?;  // det valgte bil-ID, kan være null
+
+                // Hvis der er valgt en bil, tjek at antallet af gæster ikke overskrider grænsen
+                if (carId != null)
+                {
+                    var car = _carBLL.GetCar(carId.Value);
+                    var guestsInCar = _guestBLL.GetAllGuests(_ferryId).Count(g => g.CarID == carId);
+                    if (guestsInCar >= 5)
+                    {
+                        MessageBox.Show($"The car {car.Name} has reached its maximum capacity.", "Capacity Exceeded", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
 
                 var newGuest = new GuestDTO
                 {
                     Name = NameTextBox.Text,
                     Gender = ((ComboBoxItem)GenderComboBox.SelectedItem).Content.ToString(),
                     Birthdate = BirthDatePicker.SelectedDate ?? DateTime.Now,
-                    CarID = carId,  // Can be null
+                    CarID = carId,  // kan være null
                     FerryID = _ferryId
                 };
 
@@ -75,5 +94,6 @@ namespace WPF
                 MessageBox.Show("Error adding guest: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }

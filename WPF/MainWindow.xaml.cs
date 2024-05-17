@@ -77,7 +77,12 @@ namespace WPF
         {
             if (DataGridFerries.SelectedItem is FerryDTO selectedFerry)
             {
-                var cars = _carBLL.GetAllCarsForFerry(selectedFerry.FerryID);
+                var cars = _carBLL.GetAllCarsForFerry(selectedFerry.FerryID).ToList();
+                cars.ForEach(car =>
+                {
+                    car.NumberOfGuests = _guestBLL.GetAllGuests(car.FerryID).Count(g => g.CarID == car.CarID);
+                });
+
                 DataGridCars.ItemsSource = cars;
             }
             else
@@ -112,9 +117,6 @@ namespace WPF
                 Console.WriteLine($"Loaded guests for the current selection - Count: {guestsToLoad.Count}");
             }
         }
-
-
-
 
 
 
@@ -274,6 +276,7 @@ namespace WPF
                 if (addGuestWindow.ShowDialog() == true)
                 {
                     LoadGuests();
+                    LoadCars(); // måske
                 }
             }
             else

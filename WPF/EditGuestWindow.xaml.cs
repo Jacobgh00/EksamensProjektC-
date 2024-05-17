@@ -59,10 +59,24 @@ namespace WPF
         {
             try
             {
+                var selectedCarId = (int?)CarComboBox.SelectedValue;
+                if (selectedCarId.HasValue && selectedCarId != _guest.CarID)  // Check if car has changed
+                {
+                    var car = _carBLL.GetCar(selectedCarId.Value);
+                    var guestsInCar = _guestBLL.GetAllGuests(_ferryId).Count(g => g.CarID == selectedCarId);
+
+                    // Check if adding this guest exceeds the car's capacity
+                    if (guestsInCar >= 5)
+                    {
+                        MessageBox.Show($"The car {car.Name} is already at its maximum capacity.", "Capacity Exceeded", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+
                 _guest.Name = NameTextBox.Text;
                 _guest.Gender = ((ComboBoxItem)GenderComboBox.SelectedItem).Content.ToString();
                 _guest.Birthdate = BirthDatePicker.SelectedDate ?? DateTime.Now;
-                _guest.CarID = (int?)CarComboBox.SelectedValue == 0 ? null : (int?)CarComboBox.SelectedValue;
+                _guest.CarID = selectedCarId;
 
                 _guestBLL.UpdateGuest(_guest);
                 MessageBox.Show("Guest updated successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -75,5 +89,6 @@ namespace WPF
                 MessageBox.Show("Error updating guest: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }
