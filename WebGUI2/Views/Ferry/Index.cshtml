@@ -5,53 +5,62 @@
     ViewBag.Title = "Ferries";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="container mt-4">
+    <div class="row mb-2">
+        <div class="col">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        <div class="col text-right">
+            @Html.ActionLink("Create New Ferry", "Create", null, new { @class = "btn btn-success" })
+        </div>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New Ferry", "Create", null, new { @class = "btn btn-success" })
-</p>
-
-<div class="table-responsive">
-    <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.First().FerryID)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Name)</th>
-                <th>@Html.DisplayNameFor(model => model.First().MaxCars)</th>
-                <th>@Html.DisplayNameFor(model => model.First().MaxGuests)</th>
-                <th>@Html.DisplayNameFor(model => model.First().PriceGuests)</th>
-                <th>@Html.DisplayNameFor(model => model.First().PriceCar)</th>
-                <th>Total Guests</th>
-                <th>Total Cars</th>
-                <th>Total Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.FerryID)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MaxCars)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MaxGuests)</td>
-                    <td>@Html.DisplayFor(modelItem => item.PriceGuests)</td>
-                    <td>@Html.DisplayFor(modelItem => item.PriceCar)</td>
-                    <td>@item.TotalGuests</td>
-                    <td>@item.TotalCars</td>
-                    <td>@item.TotalPrice</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Ferry Actions">
-                            @Html.ActionLink("Details", "Details", new { id = item.FerryID }, new { @class = "btn btn-info btn-sm" })
-                            @Html.ActionLink("Edit", "Edit", new { id = item.FerryID }, new { @class = "btn btn-primary btn-sm" })
-                            @using (Html.BeginForm("Delete", "Ferry", new { id = item.FerryID }, FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to delete this item?');" }))
-                            {
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            }
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.First().FerryID)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Name)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().MaxCars)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().MaxGuests)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().PriceGuests)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().PriceCar)</th>
+                            <th>Total Guests</th>
+                            <th>Total Cars</th>
+                            <th>Total Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.FerryID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MaxCars)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MaxGuests)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PriceGuests)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PriceCar)</td>
+                                <td>@item.TotalGuests</td>
+                                <td>@item.TotalCars</td>
+                                <td>@item.TotalPrice</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Ferry Actions">
+                                        @Html.ActionLink("Details", "Details", new { id = item.FerryID }, new { @class = "btn btn-info btn-sm mr-1" })
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.FerryID }, new { @class = "btn btn-primary btn-sm mr-1" })
+                                        @using (Html.BeginForm("Delete", "Ferry", new { id = item.FerryID }, FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to delete this item?');" }))
+                                        {
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
