@@ -13,6 +13,7 @@ namespace WebGUI2.Controllers
         private CarBLL carBLL = new CarBLL();
         private FerryBLL ferryBLL = new FerryBLL();
         private GuestBLL guestBLL = new GuestBLL();
+        
         // GET: Car/Add
         public ActionResult Add(int ferryId)
         {

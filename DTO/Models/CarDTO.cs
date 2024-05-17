@@ -25,6 +25,9 @@ namespace DTO.Models
         public int FerryID { get; set; }
 
         // Computed property til at vise antal gæster for hver bil, måske kan man bare bruge Guests.Count
+
+        [Display(Name = "Number of guests")]
+        [Range(0,5)]
         public int NumberOfGuests { get; set; }
 
         public CarDTO()

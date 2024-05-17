@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.BLL;
 using DTO.Models;
+using FerryManagementData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,12 @@ namespace WebGUI2.Controllers
         public ActionResult Add(int ferryId)
         {
             var cars = carBLL.GetAllCarsForFerry(ferryId);
-            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate");
+            var availableCars = cars.Where(c => c.Guests.Count < 5).ToList();
+            ViewBag.Cars = new SelectList(availableCars, "CarID", "Numberplate");
 
-            
+            bool allCarsFull = !availableCars.Any();
+            ViewBag.AllCarsFull = allCarsFull;
+
             var guest = new GuestDTO { FerryID = ferryId };
             return View(guest);
         }
@@ -30,6 +34,11 @@ namespace WebGUI2.Controllers
         [HttpPost]
         public ActionResult Add(GuestDTO guest)
         {
+            // Load cars
+            var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
+            var availableCars = cars.Where(c => c.Guests.Count < 5).ToList();
+            ViewBag.Cars = new SelectList(availableCars, "CarID", "Numberplate", guest.CarID);
+
             if (ModelState.IsValid)
             {
                 try
@@ -42,10 +51,6 @@ namespace WebGUI2.Controllers
                     ModelState.AddModelError("", "Error creating guest: " + ex.Message);
                 }
             }
-
-            
-            var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
-            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
 
             return View(guest);
         }
@@ -60,7 +65,11 @@ namespace WebGUI2.Controllers
             }
 
             var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
-            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
+            var availableCars = cars.Where(c => c.Guests.Count < 5 || c.CarID == guest.CarID).ToList();
+            ViewBag.Cars = new SelectList(availableCars, "CarID", "Numberplate", guest.CarID);
+
+            bool allCarsFull = !availableCars.Any();
+            ViewBag.AllCarsFull = allCarsFull;
 
             return View(guest);
         }
@@ -70,6 +79,11 @@ namespace WebGUI2.Controllers
         [HttpPost]
         public ActionResult Edit(GuestDTO guest)
         {
+
+            var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
+            var availableCars = cars.Where(c => c.Guests.Count < 5).ToList();
+            ViewBag.Cars = new SelectList(availableCars, "CarID", "Numberplate");
+
             if (ModelState.IsValid)
             {
                 try
@@ -83,10 +97,7 @@ namespace WebGUI2.Controllers
                 }
             }
 
-            // Preserve the dropdown list in case of an error
-            var cars = carBLL.GetAllCarsForFerry(guest.FerryID);
-            ViewBag.Cars = new SelectList(cars, "CarID", "Numberplate", guest.CarID);
-
+            
             return View(guest);
         }
         
