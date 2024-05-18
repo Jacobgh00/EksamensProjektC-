@@ -17,6 +17,8 @@ namespace WebAPI.Controllers
     {
         private FerryBLL _ferryBLL = new FerryBLL();
 
+
+
         //får alle færger inklusiv deres biler og gæster
         //GET: api/Ferries
         [HttpGet]
