@@ -37,7 +37,7 @@ namespace BusinessLogic.BLL
             FerryRepository.AddFerry(ferry);
         }
 
-        // Updates the details of an existing ferry
+        // opdater en færge
         public void UpdateFerry(FerryDTO ferry)
         {
             if (ferry == null)
@@ -46,7 +46,7 @@ namespace BusinessLogic.BLL
             FerryRepository.UpdateFerry(ferry);
         }
 
-        // Deletes a ferry by its ID
+        // slet en færge
         public void DeleteFerry(int id)
         {
             if (id <= 0)

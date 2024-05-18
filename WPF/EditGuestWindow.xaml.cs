@@ -51,8 +51,6 @@ namespace WPF
             CarComboBox.ItemsSource = cars;
             CarComboBox.DisplayMemberPath = "Name";
             CarComboBox.SelectedValuePath = "CarID";
-
-            
         }
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
@@ -60,12 +58,12 @@ namespace WPF
             try
             {
                 var selectedCarId = (int?)CarComboBox.SelectedValue;
-                if (selectedCarId.HasValue && selectedCarId != _guest.CarID)  // Check if car has changed
+                if (selectedCarId.HasValue && selectedCarId != _guest.CarID)
                 {
                     var car = _carBLL.GetCar(selectedCarId.Value);
                     var guestsInCar = _guestBLL.GetAllGuests(_ferryId).Count(g => g.CarID == selectedCarId);
 
-                    // Check if adding this guest exceeds the car's capacity
+                    // tjekker om bilen er fuld
                     if (guestsInCar >= 5)
                     {
                         MessageBox.Show($"The car {car.Name} is already at its maximum capacity.", "Capacity Exceeded", MessageBoxButton.OK, MessageBoxImage.Warning);

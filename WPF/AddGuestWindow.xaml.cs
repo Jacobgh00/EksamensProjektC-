@@ -45,11 +45,11 @@ namespace WPF
             var cars = _carBLL.GetAllCarsForFerry(_ferryId);
             foreach (var car in cars)
             {
-                // Hent alle gæster for denne specifikke bil
+                // Henter alle gæster for denne specifikke bil
                 var guestsForCar = _guestBLL.GetAllGuests(_ferryId).Where(g => g.CarID == car.CarID).ToList();
                 int currentGuestCount = guestsForCar.Count;
 
-                // Tjek at antallet af gæster ikke overstiger bilens kapacitet
+                // Tjekker at antallet af gæster ikke overstiger bilens kapacitet
                 string displayText = $"{car.Name} ({currentGuestCount}/5)";
                 CarComboBox.Items.Add(new ComboBoxItem { Content = displayText, Tag = car.CarID });
             }

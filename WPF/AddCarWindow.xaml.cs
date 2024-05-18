@@ -32,8 +32,6 @@ namespace WPF
             
         }
 
-
-
         private void AddCar_Click(object sender, RoutedEventArgs e)
         {
             try

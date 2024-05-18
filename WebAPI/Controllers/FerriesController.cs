@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
     {
         private FerryBLL _ferryBLL = new FerryBLL();
 
-
+        //får alle færger inklusiv deres biler og gæster
         //GET: api/Ferries
         [HttpGet]
         public IHttpActionResult Get()
@@ -25,6 +25,7 @@ namespace WebAPI.Controllers
             return Ok(_ferryBLL.GetAllFerries());
         }
 
+        //får en specifik færge inklusiv dens biler og gæster på baggrund af id
         //GET: api/Ferries/5
         [HttpGet]
         public IHttpActionResult Get(int id)
@@ -37,6 +38,7 @@ namespace WebAPI.Controllers
             return Ok(ferry);
         }
 
+        //sletter en specifik færge på baggrund af id
         //Delete: api/Ferries/5
         [HttpDelete]
         public IHttpActionResult DeleteFerry(int id)
@@ -50,15 +52,15 @@ namespace WebAPI.Controllers
                 }
 
                 _ferryBLL.DeleteFerry(id);
-                return Ok();
+                return Ok("Ferry deleted succesfully");
             }
             catch (Exception ex)
             {
                 return InternalServerError(ex);
             }
         }
-    }
 
+    }
 }   
 
 

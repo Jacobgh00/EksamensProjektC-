@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
 
         private GuestBLL _guestBLL = new GuestBLL();
 
-
+        //henter alle gæster tilknyttet en specifik færge
         //Get : api/Ferry/1/Guests
         [HttpGet]
         [Route("api/Ferry/{ferryId}/Guests")]
@@ -36,6 +36,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        //henter en specifik gæst tilknyttet en specifik færge
         //Get : api/Ferry/1/Guests/1
         [HttpGet]
         [Route("api/Ferry/{ferryId}/Guests/{id}")]

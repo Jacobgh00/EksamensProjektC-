@@ -48,7 +48,7 @@ namespace BusinessLogic.BLL
             return CarRepository.GetCar(id);
         }
 
-        // updates a car
+        // opdaterer en bil
         public void UpdateCar(CarDTO car)
         {
             ValidateCar(car);

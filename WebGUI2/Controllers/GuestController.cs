@@ -31,6 +31,7 @@ namespace WebGUI2.Controllers
         }
 
         // POST: Guest/Add
+        // Bemærk at vi kun viser de biler i vores selectlist som faktisk har plads til flere gæster
         [HttpPost]
         public ActionResult Add(GuestDTO guest)
         {
@@ -55,6 +56,7 @@ namespace WebGUI2.Controllers
             return View(guest);
         }
 
+        // Bemærk at vi kun viser de biler i vores selectlist som faktisk har plads til flere gæster
         // GET: Guest/Edit/5
         public ActionResult Edit(int id)
         {
@@ -115,7 +117,6 @@ namespace WebGUI2.Controllers
 
         // POST: Guest/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             var guest = guestBLL.GetGuest(id);

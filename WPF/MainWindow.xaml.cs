@@ -120,7 +120,7 @@ namespace WPF
 
 
 
-        //Load cars og guests efter selection changed
+        //Load cars og guests direkte efter om man er på den rigtige tab
         private void DataGridFerries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadCars();
@@ -422,7 +422,7 @@ namespace WPF
         }
 
 
-        //alt den her gør at vi kan opdatere datagriden med de forskellige typer af data. Den ser overskuelig ud, men den er rimelig simpel
+        //alt den her gør at vi kan opdatere datagriden i vores api tab med de forskellige typer af data. Den ser overskuelig ud, men den er rimelig simpel
         private void UpdateDataGrid<T>(List<T> items, string type)
         {
             ApiDataGrid2.Columns.Clear();
